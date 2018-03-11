@@ -68,6 +68,8 @@ class Retur_Keluar extends ZEN_Controller {
                 'nama_part' => $item['nama_part'],
                 'qty' => $item['qty'],
                 'harga_jual' => $item['harga_jual'],
+                'disc1' => $item['disc1'],
+                'disc2' => $item['disc2']
             );
         endforeach;
         echo json_encode($output);
@@ -89,6 +91,8 @@ class Retur_Keluar extends ZEN_Controller {
                 'nama_part' => $item['nama_part'],
                 'qty' => $item['qty'],
                 'harga_jual' => $item['harga_jual'],
+                'disc1' => $item['disc1'],
+                'disc2' => $item['disc2']
             );
         endforeach;
         echo json_encode($output);

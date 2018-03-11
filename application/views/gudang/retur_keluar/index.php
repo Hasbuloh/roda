@@ -90,7 +90,7 @@
             },
             success: function(data) {
                 if (data.status) {
-                    redirect();
+                    reload_table();
                 }
             }
         })
@@ -129,8 +129,8 @@
         })
     }
     //Mengalihkan halaman ketika form di submit
-    function redirect() {
-        var id = $('#nomor_retur').val()
-        window.location = '<?= base_url('gudang/Retur_Keluar/update_detail_retur?id=')?>'+id;
-    }
+    // function redirect() {
+    //     var id = $('#nomor_retur').val()
+    //     window.location = '<?= base_url('gudang/Retur_Keluar/update_detail_retur?id=')?>'+id;
+    // }
 </script>

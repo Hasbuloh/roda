@@ -10,6 +10,8 @@
                     <input type="hidden" name="qty_keluar" id="qty_keluar">
                     <input type="hidden" name="harga_jual" >
                     <input type="hidden" name="tanggal" id="tanggal" value="<?= $header->tanggal_nonformat ?>">
+                    <input type="hidden" name="disc1" id="disc1">
+                    <input type="hidden" name="disc2" id="disc2">
                     <div class="form-group">
                         <label for="">Nomor</label>
                         <input type="text" name="nomor_part" id="autocomplete-nomor" placeholder="Masukan Nomor Part" class="form-control" required/>
@@ -64,7 +66,9 @@
 <script src="<?= base_url('assets/vendor/datatables/js/jquery.dataTables.min.js')?>"></script>
 <script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
 <script type="text/javascript">
+
     var nomor_keluar = $('#nomor_keluar').val();
+
     $('#autocomplete-nomor').autocomplete({
         serviceUrl: '<?= base_url('gudang/Retur_Keluar/autocomplete_nomor')?>',
         dataType: 'JSON',
@@ -77,6 +81,8 @@
             $('#id_barang').val(suggestion.id);
             $('#harga').val(suggestion.harga_jual);
             $('#qty_keluar').val(suggestion.qty);
+            $('#disc1').val(suggestion.disc1);
+            $('#disc2').val(suggestion.disc2);
         },
         onSearchError: function() {
             console.log('error');
@@ -95,6 +101,8 @@
             $('#id_barang').val(suggestion.id);
             $('#harga').val(suggestion.harga_jual);
             $('#qty_keluar').val(suggestion.qty);
+            $('#disc1').val(suggestion.disc1);
+            $('#disc2').val(suggestion.disc2);
         },
         onSearchError: function() {
             console.log('error');
@@ -105,8 +113,28 @@
         event.preventDefault();
         var qty_keluar = $('#qty_keluar').val();
         var qty_retur = $('#jumlah_retur').val();
-        if (qty_keluar < qty_retur) {
-            peringatan(true,'gagal','<i class="fa fa-warning fa-fw"></i> Jumlah retur melebihi jumlah pembelian');
+        var formData = $(this).serialize();
+        if (qty_retur < 1) {
+            peringatan(true,'gagal','<i class="fa fa-warning fa-fw"></i> Jumlah retur tidak boleh kurang dari 1');
+        }else{
+            if (qty_keluar < qty_retur) {
+                peringatan(true,'gagal','<i class="fa fa-warning fa-fw"></i> Jumlah retur melebihi jumlah pembelian');
+            }else{
+                $.ajax({
+                    url: '<?= base_url('gudang/Retur_Keluar/edit_detail') ?>',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: formData,
+                    beforeSend: function() {
+                        alert('Mohon tunggu');
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            alert('berhasil');
+                        }
+                    }
+                })
+            }
         }
     })
 
@@ -123,5 +151,4 @@
         $('.alert').hide('slow');
         peringatan(false,'');
     },8000);
-
 </script>
