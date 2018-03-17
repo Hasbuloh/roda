@@ -32,4 +32,8 @@ class Formating extends ZEN_Controller {
         }
         $this->load->view('formating/table',array('title'=>'Laporan','data'=>$data));
     }
+
+    function cari_jejak() {
+    	
+    }
 }

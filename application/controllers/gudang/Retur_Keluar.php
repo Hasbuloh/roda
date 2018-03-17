@@ -54,10 +54,11 @@ class Retur_Keluar extends ZEN_Controller {
 
     public function autocomplete_nomor() {
         $param = $this->input->post('query');
-        $param1 = $this->input->post('param');
+        $param1 = $this->input->post('nomor');
+        $param2 = $this->input->post('tanggal');
         $output=array();
         $data = $this->db->query("
-            SELECT *,k.qty AS qty,k.harga AS harga_jual FROM tbl_keluar AS k LEFT JOIN (SELECT id AS id,nomor_part AS nomor_part,nama_part AS nama_part FROM tbl_stok) AS s ON s.id = k.id_barang WHERE k.nomor_keluar = '{$param1}' AND s.nomor_part LIKE '%{$param}%' 
+            SELECT *,k.qty AS qty,k.harga AS harga_jual FROM tbl_keluar AS k LEFT JOIN (SELECT id AS id,nomor_part AS nomor_part,nama_part AS nama_part FROM tbl_stok) AS s ON s.id = k.id_barang WHERE k.nomor_keluar = '{$param1}' AND s.nomor_part LIKE '%{$param}%' AND DATE_FORMAT(tanggal_keluar,'%Y-%m-%d') = '{$param2}'
         ");
         foreach($data->result_array() as $item):
             $output['query'] = $param;
@@ -69,7 +70,8 @@ class Retur_Keluar extends ZEN_Controller {
                 'qty' => $item['qty'],
                 'harga_jual' => $item['harga_jual'],
                 'disc1' => $item['disc1'],
-                'disc2' => $item['disc2']
+                'disc2' => $item['disc2'],
+                'tanggal' => $item['tanggal_keluar']
             );
         endforeach;
         echo json_encode($output);
@@ -78,9 +80,10 @@ class Retur_Keluar extends ZEN_Controller {
     public function autocomplete_nama() {
         $param = $this->input->post('query');
         $param1 = $this->input->post('param');
+        $param2 = $this->input->post('tanggal');
         $output=array();
         $data = $this->db->query("
-            SELECT *,k.qty AS qty,k.harga AS harga_jual FROM tbl_keluar AS k LEFT JOIN (SELECT id AS id,nomor_part AS nomor_part,nama_part AS nama_part FROM tbl_stok) AS s ON s.id = k.id_barang WHERE k.nomor_keluar = '{$param1}' AND s.nama_part LIKE '%{$param}%' 
+            SELECT *,k.qty AS qty,k.harga AS harga_jual FROM tbl_keluar AS k LEFT JOIN (SELECT id AS id,nomor_part AS nomor_part,nama_part AS nama_part FROM tbl_stok) AS s ON s.id = k.id_barang WHERE k.nomor_keluar = '{$param1}' AND s.nama_part LIKE '%{$param}%' AND DATE_FORMAT(tanggal_keluar,'%Y-%m-%d') = '{$param2}' 
         ");
         foreach($data->result_array() as $item):
             $output['query'] = $param;
@@ -92,7 +95,8 @@ class Retur_Keluar extends ZEN_Controller {
                 'qty' => $item['qty'],
                 'harga_jual' => $item['harga_jual'],
                 'disc1' => $item['disc1'],
-                'disc2' => $item['disc2']
+                'disc2' => $item['disc2'],
+                'tanggal' => $item['tanggal_keluar']
             );
         endforeach;
         echo json_encode($output);
@@ -100,7 +104,7 @@ class Retur_Keluar extends ZEN_Controller {
 
 
 
-    function edit_header() {
+  function edit_header() {
      $this->Returkeluar->_tableName = 'tbl_headerreturkeluar';
      $id = $this->input->post('id');
      $data = $this->Returkeluar->array_form_post(array('nomor_retur','nomor_keluar','tanggal'));
@@ -112,35 +116,33 @@ class Retur_Keluar extends ZEN_Controller {
   public function update_detail_retur() {
     $id = $this->input->get('id');
     $this->data['header'] = $this->db->query(
-        "SELECT *,DATE_FORMAT(h.tanggal,'%d %M %Y') AS tanggal,h.tanggal AS tanggal_nonformat FROM tbl_headerreturkeluar AS h LEFT JOIN tbl_headerkeluar AS hk ON h.nomor_keluar = hk.nomor_keluar WHERE h.nomor_retur = '{$id}'"
+        "SELECT *,DATE_FORMAT(h.tanggal,'%d %M %Y') AS tanggal,h.tanggal AS tanggal_nonformat,DATE_FORMAT(hk.tanggal,'%Y-%m-%d') AS 'tanggal_keluar' FROM tbl_headerreturkeluar AS h LEFT JOIN tbl_headerkeluar AS hk ON h.nomor_keluar = hk.nomor_keluar WHERE h.nomor_retur = '{$id}'"
     )->row();
     $this->data['subview'] = 'gudang/retur_keluar/index_detail';
     $this->load->view('_layoutMain',$this->data);
   }
 
-
-  public function table_detaill() {
+  public function table_detail() {
     $id = $this->input->get('id');
     $this->data['items'] = $this->db->query("SELECT tbl_returkeluar.*,tbl_stok.nomor_part,tbl_stok.nama_part FROM tbl_returkeluar INNER JOIN tbl_stok ON tbl_stok.id = tbl_returkeluar.id_barang WHERE nomor_retur = '{$id}'")->result();
-    $this->data['persons'] = $this->db->query("SELECT * FROM tbl_headerkeluar INNER JOIN tbl_returkeluar ON tbl_headerkeluar.nomor_keluar = tbl_returkeluar.nomor_keluar WHERE tbl_returkeluar.nomor_retur = '{$id}' GROUP BY tbl_returkeluar.nomor_keluar")->row();
     $this->load->view('gudang/retur_keluar/table_detail',$this->data);
   }
 
-    public function autocomplete_nsc() {
-        $param = $this->input->post('query');
-        $output=array();
-        $data = $this->db->query("SELECT *,DATE_FORMAT(tanggal,'%d %M %Y') AS 'tanggal' FROM tbl_headerkeluar WHERE nama LIKE '%{$param}%' AND jenis = 1");
-        foreach($data->result_array() as $item):
-            $output['query'] = $param;
-            $output['suggestions'][] = array(
-                'value' => $item['nama']." [".$item['tanggal']."]",
-                'nomor_keluar' => $item['nomor_keluar'],
-                'nama' => $item['nama'],
-                'tanggal' => $item['tanggal']
-            );
-        endforeach;
-        echo json_encode($output);
-    }
+  public function autocomplete_nsc() {
+      $param = $this->input->post('query');
+      $output=array();
+      $data = $this->db->query("SELECT *,DATE_FORMAT(tanggal,'%d %M %Y') AS 'tanggal' FROM tbl_headerkeluar WHERE nama LIKE '%{$param}%' AND jenis = 1");
+      foreach($data->result_array() as $item):
+          $output['query'] = $param;
+          $output['suggestions'][] = array(
+              'value' => $item['nama']." [".$item['tanggal']."]",
+              'nomor_keluar' => $item['nomor_keluar'],
+              'nama' => $item['nama'],
+              'tanggal' => $item['tanggal']
+          );
+      endforeach;
+      echo json_encode($output);
+  }
 
   public function edit_detail() {
       $status = (boolean) false;

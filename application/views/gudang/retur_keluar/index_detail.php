@@ -10,6 +10,7 @@
                     <input type="hidden" name="qty_keluar" id="qty_keluar">
                     <input type="hidden" name="harga_jual" >
                     <input type="hidden" name="tanggal" id="tanggal" value="<?= $header->tanggal_nonformat ?>">
+                    <input type="hidden" name="tanggal_keluar" id="tanggal_keluar" value="<?= $header->tanggal_keluar ?>"
                     <input type="hidden" name="disc1" id="disc1">
                     <input type="hidden" name="disc2" id="disc2">
                     <div class="form-group">
@@ -67,18 +68,22 @@
 <script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
 <script type="text/javascript">
 
+    $(document).ready(function(){
+        reload();
+    })
     var nomor_keluar = $('#nomor_keluar').val();
+    var tanggal_keluar = $('#tanggal_keluar').val();
 
     $('#autocomplete-nomor').autocomplete({
         serviceUrl: '<?= base_url('gudang/Retur_Keluar/autocomplete_nomor')?>',
         dataType: 'JSON',
         noCache: true,
         type: 'POST',
-        params: {'param': nomor_keluar},
+        params: {'nomor': nomor_keluar,'tanggal': tanggal_keluar},
         noSuggestionNotice: 'No Result',
         onSelect: function (suggestion) {
             $('#autocomplete-nama').val(suggestion.nama_part);
-            $('#id_barang').val(suggestion.id);
+            $('#barang').val(suggestion.id);
             $('#harga').val(suggestion.harga_jual);
             $('#qty_keluar').val(suggestion.qty);
             $('#disc1').val(suggestion.disc1);
@@ -94,11 +99,11 @@
         dataType: 'JSON',
         noCache: true,
         type: 'POST',
-        params: {'param': nomor_keluar},
+        params: {'nomor': nomor_keluar,'tanggal': tanggal_keluar},
         noSuggestionNotice: 'No Result',
         onSelect: function (suggestion) {
             $('#autocomplete-nomor').val(suggestion.nomor_part);
-            $('#id_barang').val(suggestion.id);
+            $('#barang').val(suggestion.id);
             $('#harga').val(suggestion.harga_jual);
             $('#qty_keluar').val(suggestion.qty);
             $('#disc1').val(suggestion.disc1);
@@ -139,6 +144,10 @@
     })
 
     //javascript native
+    function reload() {
+        $("#table").load('<?= base_url('gudang/Retur_Keluar/table_detail?id='.$this->input->get('id')) ?>');
+    }
+
     function peringatan(status,kind,pesan) {
         if (status) {
             $('#peringatan-'+kind).show('400').html(pesan);
@@ -151,4 +160,5 @@
         $('.alert').hide('slow');
         peringatan(false,'');
     },8000);
+
 </script>

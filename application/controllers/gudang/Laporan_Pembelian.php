@@ -15,26 +15,26 @@ class Laporan_Pembelian extends ZEN_Controller {
   }
 
   public function table_index() {
-	$where = array();
-	$pembayaran = $this->input->post('pembayaran');
-	$bulan = $this->input->post('bulan');
-	$supplier = $this->input->post('supplier');
-	$terima = $this->input->post('terima');
-	$faktur = $this->input->post('faktur');
+    $where = array();
+    $pembayaran = $this->input->post('pembayaran');
+    $bulan = $this->input->post('bulan');
+    $supplier = $this->input->post('supplier');
+    $terima = $this->input->post('terima');
+    $faktur = $this->input->post('faktur');
 
-	if ($pembayaran != NULL) {
-		$where = array('tbl_headerinvoice.status_bayar='=>$pembayaran);
-	}
+    if ($pembayaran != NULL) {
+      $where = array('tbl_headerinvoice.status_bayar='=>$pembayaran);
+    }
 
-	if ($bulan != NULL) {
-		$where = array_merge($where,array("DATE_FORMAT(tbl_headerinvoice.tanggal_masuk,'%Y-%m')"=>$bulan));
-	}
+    if ($bulan != NULL) {
+      $where = array_merge($where,array("DATE_FORMAT(tbl_headerinvoice.tanggal_masuk,'%Y-%m')"=>$bulan));
+    }
 
-	if ($supplier != NULL) {
-		$where = array_merge($where,array("tbl_headerinvoice.supplier"=>$supplier));
-	}
+    if ($supplier != NULL) {
+      $where = array_merge($where,array("tbl_headerinvoice.supplier"=>$supplier));
+    }
 
-	if ($terima['awal'] != NULL && $terima['akhir'] != NULL) {
+	  if ($terima['awal'] != NULL && $terima['akhir'] != NULL) {
 //	    array('ar'=>'',)
         $where = array_merge($where,array("DATE_FORMAT(tbl_headerinvoice.tanggal_masuk,'%Y-%m-%d') >="=>$terima['awal'],"DATE_FORMAT(tbl_headerinvoice.tanggal_masuk,'%Y-%m-%d') <="=>$terima['akhir']));
     }
@@ -68,7 +68,6 @@ class Laporan_Pembelian extends ZEN_Controller {
         }
 
         if ($terima['awal'] != NULL && $terima['akhir'] != NULL) {
-      //      array('ar'=>'',)
               $where = array_merge($where,array("DATE_FORMAT(tbl_headerinvoice.tanggal_masuk,'%Y-%m-%d') >="=>$terima['awal'],"DATE_FORMAT(tbl_headerinvoice.tanggal_masuk,'%Y-%m-%d') <="=>$terima['akhir']));
           }
 

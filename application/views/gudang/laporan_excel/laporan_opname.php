@@ -17,7 +17,7 @@
     <th style="text-align:center;">Nama Part</th>
     <th>status</th>
     <th style="text-align:center;">Teori</th>
-    <th style="text-align:center;">Fisik</th>
+    <th style="text-align:center;">Aktual</th>
     <th>Keluar</th>
     <th>Masuk</th>
     <th>Retur Masuk</th>
