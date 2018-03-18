@@ -58,7 +58,7 @@ class Laporan_Analisis extends ZEN_Controller {
         if ($kategori != NULL && $kategori != ""){
             $where = array('jenis_part'=>$kategori);
         }
-        
+
         if ($awal && $akhir != NULL) {
             $where = array_merge($where,array('DATE_FORMAT(tanggal_keluar,"%Y-%m-%d") >='=>$awal,'DATE_FORMAT(tanggal_keluar,"%Y-%m-%d") <='=>$akhir));
         }
@@ -92,7 +92,6 @@ class Laporan_Analisis extends ZEN_Controller {
 
         $this->data['items'] = $this->Laporan->stok_barang($where,$like,$urut)->result();
         $this->load->view('gudang/laporan_analisis/table_index_stok',$this->data);
-//        print_r($this->data);
     }
 
     public function stok_barang_cetak () {
@@ -118,7 +117,6 @@ class Laporan_Analisis extends ZEN_Controller {
         $this->data['items'] = $this->Laporan->stok_barang($where,$like,$urut)->result();
         $this->data['title'] = 'Laporan Stok Barang';
         $this->load->view('gudang/laporan_excel/laporan_stok_barang',$this->data);
-//        print_r($this->data);
     }
 
     public function detail_keluar() {
@@ -127,7 +125,6 @@ class Laporan_Analisis extends ZEN_Controller {
         $tanggal = $this->input->get('date');
         $this->data['header'] = $this->db->query("SELECT * FROM tbl_stok WHERE id = '{$id}'")->row();
         $this->data['items'] = $this->Laporan->detail_keluar($id,$tanggal)->result();
-//        print_r($this->data);
         $this->data['subview'] = 'gudang/laporan_analisis/index_detail_keluar';
         $this->load->view('_layoutMain',$this->data);
     }
@@ -170,7 +167,6 @@ class Laporan_Analisis extends ZEN_Controller {
         $this->data['items'] = $this->Laporan->masuk_barang($where,$like,$urut)->result();
         $this->data['title'] = 'Laporan Masuk Barang';
         $this->load->view('gudang/laporan_excel/laporan_masuk_bulanan.php',$this->data);
-        // print_r($this->data);
     }
 
     public function keluar_barang_cetak() {
@@ -199,22 +195,25 @@ class Laporan_Analisis extends ZEN_Controller {
         $this->data['items'] = $this->Laporan->keluar_barang($where,$like,$urut)->result();
         $this->data['title'] = 'Laporan Keluar Barang';
         $this->load->view('gudang/laporan_excel/laporan_keluar_bulanan.php',$this->data);
-        // print_r($this->data);
     }
 
     public function tidak_bermutasi() {
         $where = '';
         $like = '';
         $order = '';
-        $awal = $this->input->get('awal');
-        $akhir = $this->input->get('akhir');
-        $kategori = $this->input->get('kategori');
-        $nomor = $this->input->get('nomor');
-        $urut = $this->input->get('urut');
+        $awal = $this->input->post('awal');
+        $akhir = $this->input->post('akhir');
+        $kategori = $this->input->post('kategori');
+        $nomor = $this->input->post('nomor');
+        $urut = $this->input->post('urut');
 
-
-        $query = "SELECT * FROM tbl_stok WHERE id NOT IN(SELECT id_barang FROM tbl_keluar) AND id NOT IN (SELECT id_barang FROM tbl_pembelian) ORDER BY qty DESC";
-        $this->data['items'] = $this->db->query($query)->result();
+        $string = "SELECT *
+              FROM tbl_stok WHERE id NOT IN(SELECT id_barang FROM tbl_keluar WHERE tanggal_keluar BETWEEN '{$awal}' AND '{$akhir}') AND id NOT IN (SELECT id_barang FROM tbl_pembelian WHERE tanggal_masuk BETWEEN '{$awal}' AND '{$akhir}')";
+        if ($kategori != null) {
+            $string .= " AND jenis_part = '{$kategori}'";
+        }
+        $string .= " ORDER BY nomor_part ASC";
+        $this->data['items'] = $this->db->query($string)->result();
         $this->load->view('gudang/laporan_analisis/table_index_tidakbermutasi',$this->data);
     }
 
@@ -227,7 +226,6 @@ class Laporan_Analisis extends ZEN_Controller {
         $kategori = $this->input->get('kategori');
         $nomor = $this->input->get('nomor');
         $urut = $this->input->get('urut');
-
 
         $query = "SELECT * FROM tbl_stok WHERE id NOT IN(SELECT id_barang FROM tbl_keluar) AND id NOT IN (SELECT id_barang FROM tbl_pembelian) ORDER BY qty DESC";
         $this->data['items'] = $this->db->query($query)->result();

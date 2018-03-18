@@ -93,10 +93,10 @@ class Barang extends ZEN_Controller{
     function cari_klasifikasi($id) {
         $hasil_pencarian = null;
         $data = $this->db->query("SELECT NOW() AS 'tanggal_sekarang',NOW() - INTERVAL 1 MONTH AS 'tanggal_mundur'")->row();
-        // print_r($data);
+
         $sql = $this->db->query("SELECT SUM(qty) AS 'jumlah' FROM tbl_keluar WHERE id_barang='{$id}' AND tanggal_keluar < '{$data->tanggal_sekarang}' AND tanggal_keluar > '{$data->tanggal_mundur}'")->row();
         $jumlah = $this->db->query("SELECT * FROM tbl_klasifikasi")->row();
-        // echo $sql->jumlah/30;
+        
 
         if ($sql->jumlah / 30 > $jumlah->jumlah / 30 || $sql->jumlah === $jumlah->jumlah / 30 ) {
           $hasil_pencarian = "<span class='label label-primary'>Fast Moving</span>";

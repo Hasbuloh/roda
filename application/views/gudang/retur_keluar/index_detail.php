@@ -8,9 +8,9 @@
                     <input type="hidden" name="nomor_keluar" id="nomor_keluar" value="<?= $header->nomor_keluar ?>">
                     <input type="hidden" name="id_barang" id="barang">
                     <input type="hidden" name="qty_keluar" id="qty_keluar">
-                    <input type="hidden" name="harga_jual" >
+                    <input type="hidden" name="harga_jual" id="harga_jual">
                     <input type="hidden" name="tanggal" id="tanggal" value="<?= $header->tanggal_nonformat ?>">
-                    <input type="hidden" name="tanggal_keluar" id="tanggal_keluar" value="<?= $header->tanggal_keluar ?>"
+                    <input type="hidden" name="tanggal_keluar" id="tanggal_keluar" value="<?= $header->tanggal_keluar ?>">
                     <input type="hidden" name="disc1" id="disc1">
                     <input type="hidden" name="disc2" id="disc2">
                     <div class="form-group">
@@ -84,7 +84,7 @@
         onSelect: function (suggestion) {
             $('#autocomplete-nama').val(suggestion.nama_part);
             $('#barang').val(suggestion.id);
-            $('#harga').val(suggestion.harga_jual);
+            $('#harga_jual').val(suggestion.harga_jual);
             $('#qty_keluar').val(suggestion.qty);
             $('#disc1').val(suggestion.disc1);
             $('#disc2').val(suggestion.disc2);
@@ -104,7 +104,7 @@
         onSelect: function (suggestion) {
             $('#autocomplete-nomor').val(suggestion.nomor_part);
             $('#barang').val(suggestion.id);
-            $('#harga').val(suggestion.harga_jual);
+            $('#harga_jual').val(suggestion.harga_jual);
             $('#qty_keluar').val(suggestion.qty);
             $('#disc1').val(suggestion.disc1);
             $('#disc2').val(suggestion.disc2);
@@ -130,13 +130,10 @@
                     type: 'POST',
                     dataType: 'JSON',
                     data: formData,
-                    beforeSend: function() {
-                        alert('Mohon tunggu');
-                    },
                     success: function(data) {
-                        if (data.status) {
-                            alert('berhasil');
-                        }
+                            if (data.status) {
+                              reload();
+                            }
                     }
                 })
             }

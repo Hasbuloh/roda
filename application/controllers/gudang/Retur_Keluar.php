@@ -21,8 +21,8 @@ class Retur_Keluar extends ZEN_Controller {
   public function table_retur() {
     $items = $this->db->query(
         "SELECT h.nomor_retur,h.nomor_keluar,DATE_FORMAT(h.tanggal,'%d %M %Y') AS tanggal,IFNULL(d.item,0) AS item,IFNULL(d.jumlah,0) AS jumlah FROM tbl_headerreturkeluar AS h LEFT JOIN(
-          SELECT nomor_retur AS nomor_retur,SUM(qty) AS item,SUM(qty*harga_jual) AS jumlah FROM tbl_returkeluar
-        ) AS d ON d.nomor_retur = h.nomor_retur ORDER BY h.tanggal DESC
+          SELECT nomor_retur AS nomor_retur,SUM(qty) AS item,SUM(qty*harga_jual) AS jumlah FROM tbl_returkeluar GROUP BY nomor_retur
+        ) AS d ON d.nomor_retur = h.nomor_retur ORDER BY h.id DESC
         "
     )->result();
     $no = 1;
@@ -83,7 +83,7 @@ class Retur_Keluar extends ZEN_Controller {
         $param2 = $this->input->post('tanggal');
         $output=array();
         $data = $this->db->query("
-            SELECT *,k.qty AS qty,k.harga AS harga_jual FROM tbl_keluar AS k LEFT JOIN (SELECT id AS id,nomor_part AS nomor_part,nama_part AS nama_part FROM tbl_stok) AS s ON s.id = k.id_barang WHERE k.nomor_keluar = '{$param1}' AND s.nama_part LIKE '%{$param}%' AND DATE_FORMAT(tanggal_keluar,'%Y-%m-%d') = '{$param2}' 
+            SELECT *,k.qty AS qty,k.harga AS harga_jual FROM tbl_keluar AS k LEFT JOIN (SELECT id AS id,nomor_part AS nomor_part,nama_part AS nama_part FROM tbl_stok) AS s ON s.id = k.id_barang WHERE k.nomor_keluar = '{$param1}' AND s.nama_part LIKE '%{$param}%' AND DATE_FORMAT(tanggal_keluar,'%Y-%m-%d') = '{$param2}'
         ");
         foreach($data->result_array() as $item):
             $output['query'] = $param;
@@ -145,6 +145,7 @@ class Retur_Keluar extends ZEN_Controller {
   }
 
   public function edit_detail() {
+      $id = $this->input->post('id');
       $status = (boolean) false;
       $cek = $this->db->query("SELECT * FROM tbl_returkeluar WHERE nomor_keluar = '{$this->input->post('nomor_keluar')}' AND id_barang = '{$this->input->post('id_barang')}'")->num_rows();
       if ($cek < 1) {

@@ -32,7 +32,7 @@
                     <option value="0">Stok Barang</option>
                     <option value="1">Barang Keluar</option>
                     <option value="2">Barang Masuk</option>
-                    <option value="3">Tidak Ada Mutasi</option>
+                    <option value="3">Tidak Bermutasi</option>
                 </select>
             </div>
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
@@ -134,7 +134,7 @@ $('#jenis').on('change',function(){
         enable_input();
     }else{
         tableUrl = "<?= base_url('gudang/Laporan_Analisis/tidak_bermutasi')?>";
-        disabled_input();
+        enable_input();
     }
     reload();
 })

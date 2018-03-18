@@ -11,24 +11,32 @@
 </div>
 <script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
 <script src="<?= base_url('assets/vendor/canvas/jquery.canvasjs.min.js')?>"></script>
+
 <script type="text/javascript">
-var data = (function(){
+var dataPointsA=[];
+$(document).ready(function() {
   $.ajax({
     url: '<?= base_url('gudang/Grafik_Penjualan/grafik')?>',
     dataType: 'JSON',
     type: 'GET',
-    success: function(data) {
-      data = data;
+    success: function(response) {
+      for (var i=0;i<response.length;i++){
+        dataPointsA.push({
+          label: response[i].label,
+          y: response[i].y
+        })
+      }
     }
   });
-  return data;
-})();
+});
 
 window.onload = function () {
+  //console.log(dataPointsA);
+
   // alert(data[0].item)
   // alert(json_parse(data));
 	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "theme2",//theme1
+		theme: "light2",//theme1
 		title:{
 			text: "Basic Column Chart - CanvasJS"
 		},
@@ -36,14 +44,8 @@ window.onload = function () {
 		data: [
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "spline",
-			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
-			]
+			type: "column",
+			dataPoints: dataPointsA
 		}
 		]
 	});

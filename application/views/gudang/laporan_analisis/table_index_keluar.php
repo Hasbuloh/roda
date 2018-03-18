@@ -22,13 +22,11 @@
         <td><?= $item->nomor_part?></td>
         <td><?= $item->nama_part?></td>
         <td align="center"><?= $item->tanggal_keluar ?></td>
-        <td align="center"><span class="badge"><?= $totalqty[]=$item->jumlah_keluar?></span></td>
+        <td align="center"><?= $totalqty[]=$item->jumlah_keluar?></td>
         <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($item->harga) ?></strong></td>
         <td align="center"><?= $item->disc1 ?></td>
         <td align="center"><?= $item->disc2 ?></td>
-        <td align="center">
-            <span class="label label-info"><?= $item->no_rak ?></span>
-        </td>
+        <td align="center"><?= $item->no_rak ?></td>
         <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($item->harga_beli) ?></strong></td>
         <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($totalnet[]=$item->harga_jual*$item->jumlah_keluar) ?></strong></td>
         <td align="center"><a href="<?= base_url('gudang/Laporan_Analisis/detail_keluar?id='.$item->id_barang."&date=".$item->tanggal_keluar_unformated)?>" target="_blank" id="nomor"><i class="fa fa-search fa-fw"></i></a></td>
