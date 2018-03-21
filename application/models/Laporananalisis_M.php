@@ -40,6 +40,7 @@ class Laporananalisis_M extends ZEN_Model {
             }
         }
         $this->db->group_by('tbl_pembelian.id_barang,DATE_FORMAT(tbl_pembelian.tanggal_masuk,"%d-%m-%Y")');
+        $this->db->order_by('tbl_stok.nomor_part','ASC');
         $query = $this->db->get();
         return $query;
     }
@@ -86,7 +87,7 @@ class Laporananalisis_M extends ZEN_Model {
             }
        }
 
-       $this->db->order_by('no_rak','ASC');
+       $this->db->order_by('tbl_stok.nomor_part','ASC');
        $this->db->group_by('nomor_part');
        return $this->db->get();
     }

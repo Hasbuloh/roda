@@ -15,6 +15,7 @@ class Laporanrutin_M extends ZEN_Model {
             $this->db->where($where);
         }
         $this->db->group_by('tbl_pembelian.id_barang,DATE_FORMAT(tbl_pembelian.tanggal_masuk,"%d-%m-%Y")');
+        $this->db->order_by('tbl_stok.nomor_part','ASC');
         $query = $this->db->get();
         return $query;
     }
@@ -27,6 +28,7 @@ class Laporanrutin_M extends ZEN_Model {
             $this->db->where($where);
         }
         $this->db->group_by('tbl_keluar.id_barang,DATE_FORMAT(tbl_keluar.tanggal_keluar,"%d-%m-%Y")');
+        $this->db->order_by('tbl_stok.nomor_part','ASC');
         $query = $this->db->get();
         return $query;
     }

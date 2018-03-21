@@ -55,8 +55,8 @@ class Laporan_Stok extends  ZEN_Controller {
                                 FROM tbl_headerkeluar
                                 LEFT JOIN tbl_keluar
                                 ON tbl_keluar.nomor_keluar = tbl_headerkeluar.nomor_keluar
-                                WHERE tbl_headerkeluar.tanggal BETWEEN 
-                                '{$awal}' - INTERVAL 1 DAY AND '{$akhir}' GROUP BY tbl_keluar.id_barang ASC) AS k ON k.id_barang = tbl_stok.id 
+                                WHERE tbl_headerkeluar.tanggal BETWEEN
+                                '{$awal}' - INTERVAL 1 DAY AND '{$akhir}' GROUP BY tbl_keluar.id_barang ASC) AS k ON k.id_barang = tbl_stok.id
                                 LEFT JOIN (
                                     SELECT
                                         tbl_retur.id_barang,
@@ -64,7 +64,7 @@ class Laporan_Stok extends  ZEN_Controller {
                     FROM tbl_headerretur
                         LEFT JOIN tbl_retur ON tbl_headerretur.nomor_retur = tbl_retur.nomor_retur
                     WHERE tbl_headerretur.tanggal_retur BETWEEN '{$awal}' - INTERVAL 1 DAY AND '{$akhir}' GROUP BY tbl_retur.id_barang ASC) AS rm ON rm.id_barang = tbl_stok.id LEFT JOIN (
-                    SELECT 
+                    SELECT
                         tbl_returkeluar.id_barang,
                         SUM(tbl_returkeluar.qty) AS QTY_ROUT
                     FROM tbl_headerreturkeluar
@@ -135,7 +135,7 @@ class Laporan_Stok extends  ZEN_Controller {
                 $string .= "'".$awal."' - INTERVAL 1 DAY AND '".$akhir."'";
                 $string .= "GROUP BY tbl_retur.id_barang ASC) AS rm ON rm.id_barang = tbl_stok.id ";
                 $string .= "LEFT JOIN (
-                    SELECT 
+                    SELECT
                         tbl_returkeluar.id_barang,
                         SUM(tbl_returkeluar.qty) AS QTY_ROUT
                     FROM tbl_headerreturkeluar
@@ -143,15 +143,17 @@ class Laporan_Stok extends  ZEN_Controller {
                     WHERE tbl_headerreturkeluar.tanggal BETWEEN ";
                 $string .= "'".$awal."' - INTERVAL 1 DAY AND '".$akhir."'";
                 $string .= "GROUP BY tbl_returkeluar.id_barang ASC) AS rk ON rk.id_barang = tbl_stok.id ";
-                    
+
             }
             if ($kategori != null) {
                 $string .= "WHERE tbl_stok.jenis_part = '".$kategori."'";
             }
 
-        $data = $this->db->query($string);
-        $this->data['items'] = $data->result();
-        $this->data['title'] = 'Laporan Stok Periode - '.$awal.' s/d '.$akhir.' '.$kategori;
-        $this->load->view('gudang/laporan_excel/laporan_stok',$this->data);
+            $string .= ' ORDER BY tbl_stok.nomor_part ASC';
+
+            $data = $this->db->query($string);
+            $this->data['items'] = $data->result();
+            $this->data['title'] = 'Laporan Stok Periode - '.$awal.' s/d '.$akhir.' '.$kategori;
+            $this->load->view('gudang/laporan_excel/laporan_stok',$this->data);
     }
 }

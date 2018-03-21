@@ -1,4 +1,4 @@
-<table class="table table-condensed table-bordered table-hover">
+<table class="table table-condensed table-bordered table-hover" id="example1">
   <thead>
     <tr>
       <th>No</th>
@@ -47,3 +47,13 @@
     <?php $no++;endforeach; ?>
   </tbody>
 </table>
+
+<script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/sweetalert-master/dist/sweetalert.min.js')?>"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#example1').DataTable();
+  })
+</script>

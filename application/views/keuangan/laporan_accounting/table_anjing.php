@@ -3,6 +3,7 @@
     <tr>
         <th>No</th>
         <th>Nomor Part</th>
+        <th>Nama Part</th>
         <th>Jenis Part</th>
         <th>Qty</th>
         <th>Awal</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td align="center"><?= $no ?></td>
                 <td><?= $item->nomor_part?></td>
+                <td><?= $item->nama_part?></td>
                 <td align="center">
                 <?php
                         switch ($item->jenis_part) {
