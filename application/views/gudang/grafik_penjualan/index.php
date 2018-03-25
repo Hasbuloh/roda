@@ -12,7 +12,45 @@
 <script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
 <script src="<?= base_url('assets/vendor/canvas/jquery.canvasjs.min.js')?>"></script>
 
+
 <script type="text/javascript">
+window.onload = function() {
+
+var dataPoints = [];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "Daily Sales Data"
+	},
+	axisY: {
+		title: "Units",
+		titleFontSize: 24
+	},
+	data: [{
+		type: "column",
+		dataPoints: dataPoints
+	}]
+});
+
+function addData(data) {
+	for (var i = 0; i < data.length; i++) {
+		dataPoints.push({
+			x: data[i].nomor_part,
+			y: data[i].jumlah
+		});
+	}
+	chart.render();
+
+}
+
+$.getJSON("<?= base_url('gudang/Grafik_Penjualan/grafik')?>", addData);
+
+}
+</script>
+
+<!-- <script type="text/javascript">
 var dataPointsA=[];
 $(document).ready(function() {
   $.ajax({
@@ -51,4 +89,4 @@ window.onload = function () {
 	});
 	chart.render();
 }
-</script>
+</script> -->

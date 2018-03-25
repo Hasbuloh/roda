@@ -1,3 +1,4 @@
+<?php print_r($detail) ?>
 <div class="row">
   <div class="col-md-3">
     <div class="panel panel-default">
@@ -10,6 +11,7 @@
           <input type="hidden" name="disc2" id="disc2">
           <input type="hidden" class="form-control" name="nomor_keluar" value="<?= $detail->nomor_keluar ?>" readonly="">
           <input type="hidden" name="jenis_keluar" value="<?= $detail->jenis ?>">
+          <input type="hidden" name="tanggal_keluar" value="<?= $detail->tanggal_keluar?>">
           <div class="form-group">
               <label for="">Nomor</label>
               <input type="text" name="nomor_part" id="autocomplete-nomor" placeholder="Masukan Nomor Part" class="form-control" required/>
@@ -59,7 +61,7 @@
       <div class="panel-body">
         <div id="table">
 
-        </div>  
+        </div>
       </div>
     </div>
 

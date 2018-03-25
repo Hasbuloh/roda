@@ -13,9 +13,6 @@
             <label for="">Kategori Barang</label>
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <label for="">Nomor Part</label>
-        </div>
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             <label for="">Tanggal Awal <small class="text-danger">(Bulan/Tanggal/Tahun)</small></label>
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
@@ -35,7 +32,7 @@
                     <option value="0">Stok Barang</option>
                     <option value="1">Barang Keluar</option>
                     <option value="2">Barang Masuk</option>
-                    <option value="3">Tidak Ada Mutasi</option>
+                    <option value="3">Tidak Bermutasi</option>
                 </select>
             </div>
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
@@ -46,9 +43,6 @@
                   <option value="S">Sparepart</option>
                   <option value="">Semua</option>
                 </select>
-            </div>
-            <div class="col-sx-2 col-sm-2 col-md-2 col-lg-2">
-                <input type="text" class="form-control" id="nomor_part" name="nomor_part" placeholder="Nomor Part">
             </div>
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
@@ -102,7 +96,7 @@
 <script src="<?= base_url('assets/vendor/datepicker/js/bootstrap-datepicker.js')?>"></script>
 <script>
 
-var parameter = {'jenis':null,'awal':null,'akhir':null,'kategori':null,'nomor':null,'urut':null};
+var parameter = {'jenis':null,'awal':null,'akhir':null,'kategori':null,'urut':null};
 var tableUrl = "<?= base_url('keuangan/Laporan_Analisis/stok_barang')?>";
 
 $(document).ready(function(){
@@ -140,7 +134,7 @@ $('#jenis').on('change',function(){
         enable_input();
     }else{
         tableUrl = "<?= base_url('keuangan/Laporan_Analisis/tidak_bermutasi')?>";
-        disabled_input();
+        enable_input();
     }
     reload();
 })
@@ -177,7 +171,7 @@ $('#cetak').on('click',function(){
   var kategori = $('#kategori').val();
   var nomor = $('#nomor_part').val()
   var urut = $('#urutkan').val();
-  window.location = tableUrl+'_cetak'+"?awal="+awal+"&akhir="+akhir+"&kategori="+kategori+"&jenis="+jenis+"&nomor="+nomor+"&urut="+urut;
+  window.location = tableUrl+'_cetak'+"?awal="+awal+"&akhir="+akhir+"&kategori="+kategori+"&jenis="+jenis+"&urut="+urut;
 })
 
 function disabled_input() {

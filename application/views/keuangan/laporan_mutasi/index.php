@@ -7,9 +7,6 @@
 	<div class="panel-body">
         <div class="row">
             <div class="col-md-2">
-                <label for="">No.Part</label>
-            </div>
-            <div class="col-md-2">
                 <label for="">Tgl.Awal</label>
             </div>
             <div class="col-md-2">
@@ -20,11 +17,6 @@
             </div>
         </div>
 		<div class="row">
-			<div class="col-md-2">
-			  <div class="form-group">
-			    <input type="text" class="form-control" id="nomor_part" placeholder="">
-			  </div>
-			</div>
 			<div class="col-md-2">
 			  <div class="form-group">
 			    <input type="date" class="form-control" id="awal" placeholder="">
@@ -87,17 +79,12 @@ $('#akhir').on('change',function(){
     reload(parameter);
 })
 
-$('#nomor_part').on('keyup',function(){
-    parameter.nomor = $(this).val();
-    reload(parameter);
-})
 $('#klasifikasi').on('change',function(){
     parameter.klasifikasi = $(this).val();
     reload(parameter);
 })
 
 $('#cetak').on('click',function(){
-    var nomor = $('#nomor_part').val();
     var awal = $('#awal').val();
     var akhir = $('#akhir').val();
     var jenis = $('#klasifikasi').val();

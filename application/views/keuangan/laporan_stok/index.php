@@ -6,23 +6,23 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-3"><label for="">Awal</label></div>
-            <div class="col-md-3"><label for="">Akhir</label></div>
-            <div class="col-md-3"><label for="">Klasifikasi</label></div>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"><label for="">Awal</label></div>
+            <div class="col-md-2"><label for="">Akhir</label></div>
+            <div class="col-md-2"><label for="">Klasifikasi</label></div>
+            <div class="col-md-2"></div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <input type="date" name="bulan" id="awal" class="form-control">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <input type="date" name="bulan" id="akhir" class="form-control">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-group">
                     <select name="klasifikasi" id="klasifikasi" class="form-control">
                         <option value="">-- Pilih Satu --</option>
@@ -32,7 +32,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="#" class="btn btn-sm btn-success" id="cetak"><i class="fa fa-print fa-fw"></i> Cetak</a>
             </div>
         </div>

@@ -22,6 +22,7 @@
                 <tr>
                     <th>No</th>
                     <th>No.Keluar</th>
+                    <th>Nomor SA</th>
                     <th>Jenis Keluar</th>
                     <th>Tanggal Keluar</th>
                     <th>Qty</th>
@@ -33,6 +34,7 @@
                         <tr>
                             <td align="center"><?= $no ?></td>
                             <td align="center"><strong><?= $item->nomor_keluar?></strong></td>
+                            <td align="center"><strong><?= $item->nomor_sa?></strong></td>
                             <td align="center"><?= $item->jenis_keluar == '1'?'NSC':'NJB' ?></td>
                             <td align="center"><?= $item->tanggal_keluar ?></td>
                             <td align="center"><span class="text-mutted"><strong><?= $item->qty ?></strong></span></td>

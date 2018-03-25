@@ -21,7 +21,7 @@ class Grafik_Penjualan extends ZEN_Controller{
     $barang = $this->Barang->get();
     $data = array();
     foreach ($barang as $value) {
-      $data[] = array('label'=>$value->nama_part,'y'=>$value->qty);
+      $data[] = array('nomor_part'=>$value->nama_part,'jumlah'=>$value->qty);
     }
     echo json_encode($data);
   }

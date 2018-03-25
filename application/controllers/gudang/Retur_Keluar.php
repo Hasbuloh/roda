@@ -157,6 +157,19 @@ class Retur_Keluar extends ZEN_Controller {
       echo json_encode(array('status'=>$status));
   }
 
+  public function delete_detail() {
+      $id = $this->input->post('id');
+      $nomor_retur = $this->input->post('nomor_retur');
+      $status = (boolean) false;
+      $delete = $this->db->query("
+                    DELETE FROM tbl_returkeluar WHERE id_barang = '{$id}' AND nomor_retur = '{$nomor_retur}'
+                ");
+      if ($delete) {
+          $status = (boolean) true;
+      }
+      echo json_encode(array('status'=>$status));
+  }
+
 
   public function generate_nourut() {
     $nopo = null;

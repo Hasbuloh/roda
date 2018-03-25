@@ -1,4 +1,4 @@
-<table class="table table-condensed table-bordered">
+<table class="table table-condensed table-bordered table-hover" id="example1">
 <thead>
     <tr>
         <th>No</th>
@@ -19,20 +19,27 @@
         <td><?= $item->nomor_part?></td>
         <td><?= $item->nama_part?></td>
         <td align="center"><?= $item->tanggal_keluar ?></td>
-        <td align="center"><span class="badge"><?= $totalqty[]=$item->jumlah_keluar?></span></td>
-        <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($item->harga_beli) ?></strong></td>
-        <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($totalnet[]=$item->harga_beli*$item->jumlah_keluar) ?></strong></td>
-        <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($item->harga) ?></strong></td>
-        <td align="right"><span style="float:left;">Rp. </span><strong><?= toRP($total[]=$item->jumlah_harga) ?></strong></td>
+        <td align="center"><?= $totalqty[]=$item->jumlah_keluar?></td>
+        <td align="right"><?= toRP($item->harga_beli) ?></td>
+        <td align="right"><?= toRP($totalnet[]=$item->harga_beli*$item->jumlah_keluar) ?></td>
+        <td align="right"><?= toRP($item->harga) ?></strong></td>
+        <td align="right"><?= toRP($total[]=$item->harga_jual*$item->jumlah_keluar) ?></td>
     </tr>
 <?php $no++;endforeach;?>
-    <tr>
-        <td colspan="4" align="center"><strong>Total</strong></td>
-        <td align="center"><strong><?= array_sum($totalqty); ?></strong></td>
-        <td></td>
-        <td align="right"><strong><span style="float:left;">Rp. </span><strong><?= toRP(array_sum($totalnet)); ?></strong></td>
-        <td></td>
-        <td align="right"><strong><span style="float:left;">Rp. </span><strong><?= toRP(array_sum($total)); ?></strong></td>
-    </tr>
 </tbody>
 </table>
+<div class="well well-sm">
+Total QTY : <?= array_sum($totalqty); ?> <br>
+Total Net : <strong>Rp. <?= toRP(array_sum($totalnet)); ?></strong> <br>
+Total  : <strong>Rp. <?= toRP(array_sum($total)); ?></strong>
+</div>
+
+<script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/sweetalert-master/dist/sweetalert.min.js')?>"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example1').DataTable();
+  })
+</script>

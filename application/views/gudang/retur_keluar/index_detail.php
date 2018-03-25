@@ -158,4 +158,22 @@
         peringatan(false,'');
     },8000);
 
+    function hapusDetail(id_barang,nomor_retur) {
+        var alert;
+        alert = confirm('Apakah anda yakin?');
+        if (alert) {
+            $.ajax({
+            url: '<?= base_url('gudang/Retur_Keluar/delete_detail')?>',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {'id': id_barang,'nomor_retur': nomor_retur },
+            success: function(data) {
+                if (data.status) {
+                    reload();
+                }
+            }
+        })
+        }
+    }
+
 </script>

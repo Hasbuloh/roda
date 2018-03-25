@@ -35,7 +35,7 @@ header("Expires: 0");
             <td align="right"><strong><?= toRP($item->harga_beli) ?></strong></td>
             <td align="right"><strong><?= toRP($totalnet[]=$item->harga_beli*$item->jumlah_keluar) ?></strong></td>
             <td align="right"><strong><?= toRP($item->harga) ?></strong></td>
-            <td align="right"><strong><?= toRP($total[]=$item->jumlah_harga) ?></strong></td>
+            <td align="right"><strong><?= toRP($total[]=$item->harga_jual*$item->jumlah_keluar) ?></strong></td>
         </tr>
         <?php $no++;endforeach;?>
     <tr>

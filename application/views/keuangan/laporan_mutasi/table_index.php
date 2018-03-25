@@ -1,15 +1,16 @@
-<table class="table table-condensed table-bordered table-hover">
+<table class="table table-condensed table-bordered table-hover" id="example1">
   <thead>
     <tr>
       <th>No</th>
       <th>Tanggal</th>
-      <th colspan="2">Deskripsi Item</th>
+      <th>Nomor</th>
+      <th>Nama</th>
       <th>Stok Awal</th>
       <th>Keluar</th>
       <th>Masuk</th>
       <th>Stok Akhir</th>
-        <th>HET</th>
-        <th>Netto</th>
+      <th>HET</th>
+      <th>Netto</th>
     </tr>
   </thead>
   <tbody>
@@ -22,10 +23,7 @@
         <td align="center"><?= $item->nomor_part ?></td>
         <td align="center"><?= $item->nama_part ?></td>
         <td align="center">
-          <strong>
-            <p class="text-muted">
-                <?= (int) $item->stok_akhir + $query1->keluar - $query2->masuk ?>
-            </p>
+            <?= (int) $item->stok_akhir + $query1->keluar - $query2->masuk ?>
           </strong>
         </td>
         <td align="center">
@@ -35,15 +33,25 @@
                 <?= $query2->masuk==""?'0': $query2->masuk?>
         </td>
         <td align="center">
-          <strong><p class="text-muted"><?= $item->stok_akhir?></strong>
+          <?= $item->stok_akhir?>
         </td>
-          <td align="right"><span style="float:left"><strong>Rp. </strong></span>
+          <td align="right">
             <?= toRP($item->stok_akhir * $item->harga_jual) ?>
           </td>
-          <td align="right"><span style="float:left"><strong>Rp. </strong></span>
+          <td align="right">
               <?= toRP($item->stok_akhir * $item->harga_beli) ?>
           </td>
       </tr>
     <?php $no++;endforeach; ?>
   </tbody>
 </table>
+
+<script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/sweetalert-master/dist/sweetalert.min.js')?>"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#example1').DataTable();
+  })
+</script>

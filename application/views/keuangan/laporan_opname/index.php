@@ -13,7 +13,7 @@
       <label for="">Item</label>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-
+      <label for="">No.Opname</label>
       </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 
@@ -33,8 +33,17 @@
           </select>
         </div>
       </div>
+      <div class="col-md-3">
+          <?php $data = $this->db->query("SELECT nomor FROM tbl_headeropname")->result_object(); ?>
+          <!-- <?php print_r($data) ?> -->
+        <select name="nomor" id="nomor" class="form-control">
+          <?php foreach ($data as $value): ?>
+              <option value="<?= $value->nomor ?>"><?= $value->nomor ?></option>
+          <?php endforeach ?>
+        </select>
+      </div>
       <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <button type="button" class="btn btn-success btn-sm" name="button"><i class="fa fa-print fa-fw"></i> Cetak</button>
+        <button type="button" class="btn btn-success btn-sm" name="button" id="cetak"><i class="fa fa-print fa-fw"></i> Cetak</button>
       </div>
     </div>
     <div class="row">
@@ -56,7 +65,7 @@
 <script src="<?= base_url('assets/vendor/sweetalert-master/dist/sweetalert.min.js')?>"></script>
 
 <script>
-    var parameter = {'bulan':null,'grup':null};
+    var parameter = {'bulan':null,'grup':null,'nomor': null};
     var tableUrl = '<?= base_url('keuangan/Laporan_Opname/table_index') ?>';
 
     $(document).ready(function() {
@@ -82,6 +91,19 @@
     $('#bulan').on('change',function(){
         parameter.bulan = $(this).val();
         reload(parameter);
+    })
+
+    $('#nomor').on('change',function() {
+        parameter.nomor = $(this).val();
+        reload(parameter)
+    })
+
+    $('#cetak').on('click',function(){
+      var grup = $('#grup').val();
+      var bulan = $('#bulan').val();
+      var nomor = $('#nomor').val();
+
+      window.location = tableUrl+'_cetak?grup='+grup+'&bulan='+bulan+'&nomor='+nomor;
     })
 
 </script>

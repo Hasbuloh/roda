@@ -1,8 +1,9 @@
-<table class="table table-condensed table-bordered table-hover">
+<table class="table table-condensed table-bordered table-hover" id="example1">
     <thead>
     <tr>
         <th>No</th>
         <th>Nomor Part</th>
+        <th>Nama Part</th>
         <th>Jenis Part</th>
         <th>Qty</th>
         <th>Awal</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td align="center"><?= $no ?></td>
                 <td><?= $item->nomor_part?></td>
+                <td><?= $item->nama_part ?></td>
                 <td align="center">
                 <?php
                         switch ($item->jenis_part) {
@@ -46,17 +48,20 @@
                 <td align="right"><?= toRP($total[]=$item->TOTAL) ?></td>
             </tr>
         <?php $no++;endforeach;?>
-            <tr>
-                <td align="center" colspan="3"><strong>Total</strong></td>
-                <td align="center"><strong><?= array_sum($qty)?></strong></td>
-                <td align="center"><strong><?= array_sum($awal)?></strong></td>
-                <td align="center"><strong><?= array_sum($masuk)?></strong></td>
-                <td align="center"><strong><?= array_sum($rm)?></strong></td>
-                <td align="center"><strong><?= array_sum($keluar)?></strong></td>
-                <td align="center"><strong><?= array_sum($rk)?></strong></td>
-                <td align="center"><strong><?= array_sum($akhir)?></strong></td>
-                <td align="right"><strong><?= toRP(array_sum($het))?></strong></td>
-                <td align="right"><strong><?= toRP(array_sum($total))?></strong></td>
-            </tr>
+
     </tbody>
 </table>
+<div class="well well-sm">
+    <tr>
+        Total QTY : <strong><?= array_sum($qty)?></strong>, Total Stok Awal : <strong><?= array_sum($awal)?></strong>, Total QTY Masuk : <strong><?= array_sum($masuk)?></strong>, Total QTY Retur Masuk : <strong><?= array_sum($rm)?></strong>, Total QTY Keluar : <strong><?= array_sum($keluar)?></strong>, Total QTY Retur Keluar : <strong><?= array_sum($rk)?></strong>, Total QTY Akhir : <strong><?= array_sum($akhir)?></strong>, HET : <strong><?= toRP(array_sum($het))?></strong>, Total HET :  <strong><?= toRP(array_sum($total))?></strong>
+    </tr>
+</div>
+
+<script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#example1').DataTable();
+    })
+</script>

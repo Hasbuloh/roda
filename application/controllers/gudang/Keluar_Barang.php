@@ -138,7 +138,10 @@ class Keluar_Barang extends ZEN_Controller {
   public function update_detail_keluar() {
     $this->_setNav('gudang');
     $id = $this->input->get('id');
-    $this->data['detail'] = $this->db->get_where('tbl_headerkeluar',array('nomor_keluar'=>$id))->row();
+    $this->data['detail'] = $this->db->query("
+            select *,DATE_FORMAT(tanggal,'%Y-%m-%d') AS tanggal_keluar FROM tbl_headerkeluar WHERE
+            nomor_keluar = '{$id}'
+        ")->row();
     $this->data['subview'] = 'gudang/keluar_barang/index_detail';
     $this->load->view('_layoutMain', $this->data);
   }

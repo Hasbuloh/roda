@@ -16,7 +16,9 @@
 <tbody>
   <?php $totalqty=array();$totalnetto=array();$totalharga=array();$no=1;foreach ($items as $item): ?>
     <tr>
-      <td align="center"><span class="text text-danger"><i class="fa fa-trash fa-fw"></i></span></td>
+      <td align="center">
+        <a href="javascript:void(0)" onclick="hapusDetail(<?= $item->id_barang?>,'<?= $item->nomor_retur ?>')" class="text text-danger"><i class="fa fa-trash fa-fw"></i></a>
+      </td>
       <td align="center"><?= $no ?></td>
       <td><?= $item->nomor_part?></td>
       <td><?= $item->nama_part?></td>
