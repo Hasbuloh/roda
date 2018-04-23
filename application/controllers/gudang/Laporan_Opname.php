@@ -34,4 +34,13 @@ class Laporan_Opname extends ZEN_Controller {
   }
 
 
+  public function cetak_template_opname() {
+    $id = $this->input->get('id');
+    $tanggal = $this->input->get('date');
+    $this->data['items'] = $this->Laporan->table_index(array('nomor'=>$id,'tanggal'=>$tanggal))->result();
+    $this->data['title'] = 'Laporan Opname - '.$id;
+    $this->load->view('gudang/laporan_excel/template_opname',$this->data);
+  }
+
+
 }

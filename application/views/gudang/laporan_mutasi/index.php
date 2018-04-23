@@ -7,9 +7,6 @@
 	<div class="panel-body">
         <div class="row">
             <div class="col-md-2">
-                <label for="">No.Part</label>
-            </div>
-            <div class="col-md-2">
                 <label for="">Tgl.Awal</label>
             </div>
             <div class="col-md-2">
@@ -20,11 +17,6 @@
             </div>
         </div>
 		<div class="row">
-			<div class="col-md-2">
-			  <div class="form-group">
-			    <input type="text" class="form-control" id="nomor_part" placeholder="">
-			  </div>
-			</div>
 			<div class="col-md-2">
 			  <div class="form-group">
 			    <input type="date" class="form-control" id="awal" placeholder="">
@@ -66,7 +58,7 @@
 <script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
 <script src="<?= base_url('assets/vendor/sweetalert-master/dist/sweetalert.min.js')?>"></script>
 <script>
-var parameter = {'nomor':null,'awal':null,'akhir':null,'klasifikasi':null};
+var parameter = {'awal':null,'akhir':null,'klasifikasi':null};
 var tableUrl = "<?= base_url('gudang/Laporan_Mutasi/table_index')?>";
 
 $(document).ready(function(){
@@ -87,21 +79,15 @@ $('#akhir').on('change',function(){
     reload(parameter);
 })
 
-$('#nomor_part').on('keyup',function(){
-    parameter.nomor = $(this).val();
-    reload(parameter);
-})
 $('#klasifikasi').on('change',function(){
     parameter.klasifikasi = $(this).val();
     reload(parameter);
 })
 
 $('#cetak').on('click',function(){
-    var nomor = $('#nomor_part').val();
     var awal = $('#awal').val();
     var akhir = $('#akhir').val();
     var jenis = $('#klasifikasi').val();
-    window.location = tableUrl+"_cetak"+"?nomor="+nomor+"&awal="+awal+"&akhir="+akhir+"&klasifikasi="+jenis;
+    window.location = tableUrl+"_cetak"+"?awal="+awal+"&akhir="+akhir+"&klasifikasi="+jenis;
 })
 </script>
-

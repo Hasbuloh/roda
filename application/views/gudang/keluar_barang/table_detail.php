@@ -10,14 +10,15 @@
 <thead>
   <tr>
     <th>No</th>
-    <th colspan="2">Deskripsi Item</th>
+    <th>Nomor Part</th>
+    <th>Nama Part</th>
     <th width="7%">Qty</th>
     <th>HET</th>
     <th colspan="2">Disc</th>
     <th>Netto</th>
     <th>Subtotal</th>
     <th>Batal</th>
-      <th>Hapus</th>
+    <th>Hapus</th>
   </tr>
 </thead>
 <tbody>
@@ -26,7 +27,7 @@
       <td align="center"><?= $no ?></td>
       <td><?= $item->nama_part ?></td>
       <td><?= $item->nomor_part ?></td>
-      <td align="center"><span class="badge"><?= $qty[] = $item->qty ?></span></td>
+      <td align="center"><?= $qty[] = $item->qty ?></td>
       <td align="right"><?= toRp($item->harga) ?></td>
       <td align="center"><?= $item->disc1?></td>
       <td align="center"><?= $item->disc2?></td>

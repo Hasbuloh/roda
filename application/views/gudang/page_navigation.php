@@ -44,9 +44,13 @@
                 <li><a href="<?= base_url('gudang/Retur_Keluar')?>">Retur Barang Keluar</a></li>
               </ul>
             </li>
-            <li class="<?= $uri == 'opname' ? 'active':'';?>"><a href="<?= base_url('gudang/Opname') ?>">Stock Opname</a></li>
+            <li class="<?php if(substr($uri,0,6) == 'opname'): echo "active"; endif;?>"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-inbox fa-fw"></i> Opname</a>
+              <ul class="dropdown-menu">
+                <li><a href="<?= base_url('gudang/Opname')?>"> Opname</a></li>
+              </ul>
+            </li>
             <li class="dropdown">
-              <li class=" <?= $uri == "laporan_bulanan" || $uri=="laporan_harian" ? "active" : ""?>"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-book fa-fw"></i> Laporan <b class="caret"></b></a>
+              <li class=" <?php if (substr($uri,0,5) == 'lapor'): echo "active"; endif; ""?>"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-book fa-fw"></i> Laporan <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="<?= base_url('gudang/Laporan_Analisis')?>"><i class="fa fa-calendar fa-fw"></i> Laporan Analisis</a></li>
                 <li><a href="<?= base_url('gudang/Laporan_Pemenuhan'); ?>"><i class="fa fa-calendar fa-fw"></i> Laporan Pemenuhan Pesanan</a></li>
@@ -54,6 +58,7 @@
                 <li><a href="<?= base_url('gudang/Laporan_Rutin'); ?>"><i class="fa fa-calendar fa-fw"></i> Laporan Harian</a></li>
                 <li><a href="<?= base_url('gudang/Laporan_Stok'); ?>"><i class="fa fa-calendar fa-fw"></i> Laporan Stock Bulanan</a></li>
                 <li><a href="<?= base_url('gudang/Laporan_Mutasi')?>"><i class="fa fa-calendar-o fa-fw"></i> Laporan Mutasi Stok</a></li>
+                <li><a href="<?= base_url('gudang/Laporan_Opname')?>"><i class="fa fa-calendar-o fa-fw"></i> Laporan Opname</a></li>
               </ul>
             </li>
           </ul>

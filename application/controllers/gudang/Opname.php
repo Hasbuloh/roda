@@ -20,7 +20,7 @@ class Opname extends ZEN_Controller
 	function table_opname() {
         $data = array();
         $no=1;
-        $items = $this->db->query("SELECT 
+        $items = $this->db->query("SELECT
                                         id,
                                         nomor,
                                         DATE_FORMAT(tanggal,'%d %M %Y') AS tanggal,
@@ -30,7 +30,7 @@ class Opname extends ZEN_Controller
                                         status
                                     FROM tbl_headeropname
                                     LEFT JOIN (
-                                        SELECT 
+                                        SELECT
                                         nomor AS nomor_opname,
                                         SUM(QTY_FISIK) AS total,
                                         count(nomor_part) AS item
@@ -78,11 +78,9 @@ class Opname extends ZEN_Controller
 		foreach ($items as $item) {
 			$row = array();
 			$row[] = $no;
-			$row[] = "<strong class=\"text text-danger\">".$item->nomor_part."</strong>";
 			$row[] = $item->nama_part;
 			$row[] = "<strong class=\"text text-info\">".$item->qty_fisik."</strong>";
 			$row[] = "<strong class=\"text text-warning\">".$item->nomor_rak."</strong>";
-			$row[] = $this->cari_selisih(array('teori'=>$item->qty_teori,'fisik'=>$item->qty_fisik));
 			$row[] = $this->tombol_hapus($item->id);
 			$data[] = $row;
 			$no++;
@@ -181,6 +179,40 @@ class Opname extends ZEN_Controller
         echo json_encode(array('status'=>$status));
     }
 
+
+    public function upload_opname() {
+        $this->load->library(array('PHPExcel','PHPExcel/IOFactory'));
+        $inputFileName = $_FILES['excel_opname_file']['tmp_name'];
+        $nomor = $this->input->post('nomor');
+        $tanggal = $this->input->post('tanggal');
+
+        try {
+                $inputFileType = IOFactory::identify($inputFileName);
+                $objReader = IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objReader->load($inputFileName);
+        } catch(Exception $e) {
+                die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+        }
+
+            $sheet = $objPHPExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+
+            for ($row = 2; $row <= $highestRow; $row++){                  //  Read a row of data into an array
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+                                                NULL,
+                                                TRUE,
+                                                FALSE);
+
+              $insert = $this->db->query("
+                  INSERT INTO tbl_opname (nomor,id_barang,qty_fisik,tanggal,nomor_rak) VALUES
+                  ('{$nomor}','{$rowData[0][1]}','{$rowData[0][6]}','{$tanggal}','{$rowData[0][5]}');
+              ");
+        }
+
+        echo json_encode(array('status'=>true));
+    }
+
     function tombol_hapus($string) {
     	$tombol = null;
     	$tombol = '<a href="javascript:void(0)" onclick="HapusItem('.$string.')"><i class="fa fa-trash fa-fw"></i></a>';
@@ -215,6 +247,7 @@ class Opname extends ZEN_Controller
     }
 
     function tombol_cetak($string) {
-        return (string) "<a href=".base_url('gudang/Laporan_Opname/cetak_laporan_opname?id=').$string['nomor_opname']."&date=".$string['tanggal']."><i class=\" fa fa-print fa-fw\"></i> Cetak </a>";
+        return (string) "<a href=".base_url('gudang/Laporan_Opname/cetak_template_opname?id=').$string['nomor_opname']."&date=".$string['tanggal']."><i class=\" fa fa-print fa-fw\"></i> Cetak Template </a>";
     }
+
 }

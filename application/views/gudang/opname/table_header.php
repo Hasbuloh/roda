@@ -3,9 +3,9 @@
 	<tr>
         <th></th>
         <th></th>
-		<th>No</th>
-		<th>No.Opname</th>
-		<th>Tanggal</th>
+				<th>No</th>
+				<th>No.Opname</th>
+				<th>Tanggal</th>
         <th>Item</th>
         <th>Qty</th>
         <th>Laporan</th>

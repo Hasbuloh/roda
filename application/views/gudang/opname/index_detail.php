@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-md-3">
         <div class="panel panel-default">
+            <div class="panel-heading">
+              <a href="#" id="input-manual"><i class="fa fa-pencil fa-fw"></i> Input Manual</a> |
+              <a href="#" id="upload-excel"><i class="fa fa-upload fa-fw"></i> Upload Excel</a>
+            </div>
             <div class="panel-body">
                 <form role="form" method="post" id="form-tambah-item">
                     <legend class="text text-danger"><i class="fa fa-pencil fa-fw"></i>Inputkan Barang</legend>
@@ -36,6 +40,19 @@
                         <button type="submit" name="tambah_item" id="tambah_item_btn" class="btn btn-block btn-info btn-md"><i class="fa fa-plus fa-fw"></i> Tambah</button>
                     </div>
                 </form>
+
+                <form role="form" method="post" id="form-upload-excel" style="display: none;" enctype="multipart/form-data">
+                    <legend class="text text-danger">Upload Hasil Opname</legend>
+                    <input type="hidden" name="nomor" value="<?= $this->input->get('id')?>">
+                    <input type="hidden" name="tanggal" value="<?= $tanggal ?>">
+                    <div class="form-group">
+                            <label for="">File (Excel)</label>
+                            <input type="file" name="excel_opname_file" id="excel_opname_file" required accept=".xlsx" class="form-control">
+                    </div>
+                    <div class="form-group">
+                            <button type="submit" name="import_excel_opname" id="import_excel_opname_btn" class="btn btn-info btn-sm"><i class="fa fa-upload fa-fw"></i> Upload</button>
+                    </div>
+                </form>
             </div>
             <div class="panel-footer">
                 <a href="<?= base_url('gudang/Opname')?>" class="btn btn-link"><i class="fa fa-arrow-circle-o-left fa-fw"></i> Kembali</a>
@@ -69,6 +86,35 @@
     $(document).ready(function() {
       $('#autocomplete-nomor').focus();
     })
+
+    $('#upload-excel').on('click',function(event){
+      event.preventDefault();
+      $('#form-upload-excel').show('slow');
+      $('#form-tambah-item').hide('slow');
+    })
+
+    $('#input-manual').on('click',function(event){
+      event.preventDefault();
+      $('#form-upload-excel').hide('slow');
+      $('#form-tambah-item').show('slow');
+    })
+
+    $('#form-upload-excel').on('submit',function(event) {
+      event.preventDefault();
+      event.preventDefault();
+      $.ajax({
+          url: '<?= base_url('gudang/Opname/upload_opname');?>',
+          method: 'POST',
+          data: new FormData(this),
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function(data) {
+            reload_table();
+          }
+        })
+    })
+
 
     setInterval(function(){
         $('.alert').hide('slow');

@@ -114,6 +114,9 @@
                                 <div class="alert alert-info" id="peringatan-update-het" style="display:none">
 
                                 </div>
+                                <div id="list-update" style="display:none;">
+                                
+                                </div>
                                 <form method="post" role="form" id="form-update-het" enctype="multipart/form-data">
                                     <legend>Update Kenaikan Het</legend>
                                     <div class="form-group">
@@ -301,6 +304,7 @@
                 $('#import_excel_het_btn').html('Update Selesai');
                 $('#peringatan-update-het').show().html('<p><i class="fa fa-warning fa-fw"></i> Update Kenaikan Het Berhasil</p>');
                 $('#import_excel_het_btn').html('<i class="fa fa-upload fa-fw"></i> Update');
+                listUpdateHet();
             }
 
         })
@@ -346,4 +350,8 @@
         })
     }
 
+    function listUpdateHet() {
+        $('#list-update').show().load('<?= base_url('gudang/Barang/list_update_het')?>');
+        $('#form-update-het').hide('slow');
+    }
 </script>

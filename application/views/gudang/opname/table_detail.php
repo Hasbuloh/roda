@@ -6,8 +6,6 @@
     <th>Nama Part</th>
     <th>Fisik</th>
     <th>Nomor Rak</th>
-    <th>Status</th>
-    <th>Hapus</th>
   </tr>
 </thead>
 <tbody>
@@ -34,8 +32,6 @@
                 {className: 'total'},
                 {className: 'total'},
                 {className: 'total'},
-                {className: 'total'},
-                {className: 'tombol'},
             ]
         });
     })

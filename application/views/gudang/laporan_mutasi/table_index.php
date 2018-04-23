@@ -22,11 +22,7 @@
         <td align="center"><?= $item->nomor_part ?></td>
         <td align="center"><?= $item->nama_part ?></td>
         <td align="center">
-          <strong>
-            <p class="text-muted">
                 <?= (int) $item->stok_akhir + $query1->keluar - $query2->masuk ?>
-            </p>
-          </strong>
         </td>
         <td align="center">
               <?= $query1->keluar==""?'0': $query1->keluar?>
@@ -35,12 +31,12 @@
                 <?= $query2->masuk==""?'0': $query2->masuk?>
         </td>
         <td align="center">
-          <strong><p class="text-muted"><?= $item->stok_akhir?></strong>
+          <strong><?= $item->stok_akhir?>
         </td>
-          <td align="right"><span style="float:left"><strong>Rp. </strong></span>
+          <td align="right">
             <?= toRP($item->stok_akhir * $item->harga_jual) ?>
           </td>
-          <td align="right"><span style="float:left"><strong>Rp. </strong></span>
+          <td align="right">
               <?= toRP($item->stok_akhir * $item->harga_beli) ?>
           </td>
       </tr>

@@ -1,4 +1,7 @@
 <div class="panel panel-default">
+    <div class="panel-heading">
+       <a href="<?= base_url('gudang/Pemesanan')?>"><i class="fa fa-arrow-circle-o-left fa-fw"></i> Kembali</a> | <a href="<?= base_url('gudang/pemesanan/cetak_nota?id='.$this->input->get('id') )?>" target="_blank"><i class="fa fa-print fa-fw"></i> Cetak</a>
+    </div>
     <div class="panel-body">
       <h4>Detail Pemesanan <small><?= $header->nopo ?></small></h4>
       <div class="well well-sm">
@@ -16,7 +19,7 @@
                   <th>Disc1</th>
                   <th>Disc2</th>
                   <th>Netto</th>
-                  <th>Sub Total Rp.</th>
+                  <th>Subtotal</th>
                   <th>Hapus</th>
               </tr>
           </thead>
@@ -27,8 +30,8 @@
                   <td style="text-align:center"><?= $no ?></td>
                   <td><?= $item->nomor_part ?></td>
                   <td> <?= $item->nama_part ?></td>
-                  <td style="text-align:center"><?= "Rp. ".toRp($item->harga_jual) ?></td>
-                  <td style="text-align:center"><span class="badge"><?= $totalqty[] = $item->qty ?></span></td>
+                  <td align="right"><?= toRp($item->harga_jual) ?></td>
+                  <td align="center"><?= $totalqty[] = $item->qty ?></td>
                   <td align="center"><?= $item->disc1 ?></td>
                   <td align="center"><?= $item->disc2 ?></td>
                   <td align="right"><?php
@@ -50,10 +53,20 @@
             <?php endif; ?>
       </tbody>
       </table>
+      <div class="well well-sm">
+          <strong>QTY : </strong> <?php echo array_sum($totalqty) ?>,
+          <strong>Total :</strong><?php echo toRP(array_sum($total)) ?>
+      </div>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="<?= base_url('gudang/pemesanan/cetak_nota?id='.$this->input->get('id') )?>" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print fa-fw"></i> Cetak</a>
-        </li>
-    </ul>
 </div>
+
+
+
+<script src="<?= base_url('assets/vendor/jquery/jquery.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?= base_url('assets/vendor/datatables/js/dataTables.bootstrap.min.js')?>"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#example1').DataTable();
+    })
+</script>

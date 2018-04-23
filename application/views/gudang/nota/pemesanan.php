@@ -7,6 +7,11 @@
 <table class="table table-condensed table-bordered table-hover" id="example1">
     <thead>
     <tr>
+          <td colspan="2">Nomor Pemesanan</td>
+          <td>:</td>
+          <td><?= $header ?></tds>
+    </tr>
+    <tr>
         <th>No</th>
         <th>Nomor Part</th>
         <th>Nama Part</th>

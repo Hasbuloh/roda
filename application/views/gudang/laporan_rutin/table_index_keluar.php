@@ -20,8 +20,8 @@
         <td><?= $item->nama_part?></td>
         <td align="center"><?= $item->tanggal_keluar ?></td>
         <td align="center"><?= $totalqty[]=$item->jumlah_keluar?></td>
-        <td align="right"><?= toRP($item->harga_beli) ?></td>
-        <td align="right"><?= toRP($totalnet[]=$item->harga_beli*$item->jumlah_keluar) ?></td>
+        <td align="right"><?= toRP($item->netto) ?></td>
+        <td align="right"><?= toRP($totalnet[]=$item->netto*$item->jumlah_keluar) ?></td>
         <td align="right"><?= toRP($item->harga) ?></strong></td>
         <td align="right"><?= toRP($total[]=$item->harga_jual*$item->jumlah_keluar) ?></td>
     </tr>

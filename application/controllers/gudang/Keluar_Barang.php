@@ -126,7 +126,7 @@ class Keluar_Barang extends ZEN_Controller {
     $status = (boolean) false;
     $cek = $this->db->query("SELECT * FROM tbl_keluar WHERE nomor_keluar = '{$this->input->post('nomor_keluar')}' AND id_barang = '{$this->input->post('id_barang')}'")->num_rows();
     if ($cek < 1) {
-        $data = $this->Keluar->array_form_post(array('id_barang','id_header','disc1','disc2','qty','nomor_keluar','jenis_keluar','harga','jumlah_harga'));
+        $data = $this->Keluar->array_form_post(array('id_barang','id_header','disc1','disc2','qty','nomor_keluar','jenis_keluar','harga','netto'));
         $this->Keluar->save($data,$id);
         $status = (boolean) true;
     }

@@ -96,7 +96,7 @@ class Barang extends ZEN_Controller{
 
         $sql = $this->db->query("SELECT SUM(qty) AS 'jumlah' FROM tbl_keluar WHERE id_barang='{$id}' AND tanggal_keluar < '{$data->tanggal_sekarang}' AND tanggal_keluar > '{$data->tanggal_mundur}'")->row();
         $jumlah = $this->db->query("SELECT * FROM tbl_klasifikasi")->row();
-        
+
 
         if ($sql->jumlah / 30 > $jumlah->jumlah / 30 || $sql->jumlah === $jumlah->jumlah / 30 ) {
           $hasil_pencarian = "<span class='label label-primary'>Fast Moving</span>";
@@ -182,6 +182,7 @@ class Barang extends ZEN_Controller{
     }
 
     public function update_het() {
+        $insert = (bool) false;
         $this->load->library(array('PHPExcel','PHPExcel/IOFactory'));
         $inputFileName = $_FILES['excel_het_file']['tmp_name'];
 
@@ -191,21 +192,32 @@ class Barang extends ZEN_Controller{
         $sheet = $objPHPExcel->getSheet(0);
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
+        $this->db->query("DELETE FROM tbl_het");
 
-          for ($row = 2; $row <= $highestRow; $row++){                  //  Read a row of data into an array
-                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+        for ($row = 2; $row <= $highestRow; $row++){                  //  Read a row of data into an array
+            $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
                                                 NULL,
                                                 TRUE,
                                                 FALSE);
             // $bajaj[] = array('nomor_part'=>$rowData[0][1],'nama_part'=>$rowData[0][2],'harga_jual'=>$rowData[0][4]);
-            $cek = $this->db->query("SELECT * FROM tbl_stok WHERE nomor_part = '{$rowData[0][1]}'");
-            // if ()
-            if ($cek->num_rows() < 1) {
-                $this->db->query("INSERT INTO tbl_stok (nomor_part,nama_part,qty,harga_jual,harga_beli) VALUES ('{$rowData[0][1]}','{$rowData[0][2]}',0,'{$rowData[0][4]}',{$rowData[0][4]})");
-            }else{
-                $this->db->query("UPDATE tbl_stok SET nama_part = '{$rowData[0][2]}',harga_jual='{$rowData[0][4]}' WHERE nomor_part = '{$rowData[0][1]}'");
-            }
+            $operation = $this->db->query("INSERT INTO tbl_het (nomor_part,nama_part,het) VALUES ('{$rowData[0][1]}','{$rowData[0][2]}','{$rowData[0][3]}')");
         }
+    }
+
+    public function list_update_het() {
+        $this->data['items'] = $this->db->query("CALL PROC_UPDATEHET('S')")->result();
+        $this->load->view('gudang/barang/update_het',$this->data);
+    }
+
+    public function simpan_update_het() {
+        $status = (bool) false;
+        $update = $this->db->query("CALL PROC_UPDATEHET('I')");
+        if ($update) {
+            $status = (bool) true;
+        }
+
+        echo json_encode(array('status'=>$status));
+
     }
 
     public function update_rak() {

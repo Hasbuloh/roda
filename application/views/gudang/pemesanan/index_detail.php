@@ -42,9 +42,6 @@
                  </div>
              </form>
          </div>
-         <div class="panel-footer">
-             <a href="<?= base_url('gudang/Pemesanan')?>" class="btn btn-link"><i class="fa fa-arrow-circle-o-left fa-fw"></i> Kembali</a>
-         </div>
      </div>
  </div>
   <div class="col-md-9">

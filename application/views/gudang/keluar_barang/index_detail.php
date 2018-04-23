@@ -1,4 +1,3 @@
-<?php print_r($detail) ?>
 <div class="row">
   <div class="col-md-3">
     <div class="panel panel-default">
@@ -12,6 +11,7 @@
           <input type="hidden" class="form-control" name="nomor_keluar" value="<?= $detail->nomor_keluar ?>" readonly="">
           <input type="hidden" name="jenis_keluar" value="<?= $detail->jenis ?>">
           <input type="hidden" name="tanggal_keluar" value="<?= $detail->tanggal_keluar?>">
+          <input type="text" name="netto" id="netto">
           <div class="form-group">
               <label for="">Nomor</label>
               <input type="text" name="nomor_part" id="autocomplete-nomor" placeholder="Masukan Nomor Part" class="form-control" required/>
@@ -167,6 +167,7 @@
           $('#harga').val(suggestion.harga_jual);
           $('#disc1').val(suggestion.disc1);
           $('#disc2').val(suggestion.disc2);
+          $('#netto').val(suggestion.harga_beli);
       },
       onSearchError: function() {
           console.log('error');

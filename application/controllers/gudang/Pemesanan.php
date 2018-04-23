@@ -1,5 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require('../vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Pemesanan extends ZEN_Controller{
 
@@ -109,9 +115,76 @@ class Pemesanan extends ZEN_Controller{
   function cetak_nota()
   {
     $id = $this->input->get('id');
-    $this->data['items'] = $this->db->query("SELECT tbl_pemesanan.*,tbl_stok.nomor_part,tbl_stok.nama_part,tbl_stok.harga_jual,tbl_stok.harga_beli,tbl_stok.disc1,tbl_stok.disc2 FROM tbl_pemesanan INNER JOIN tbl_stok ON tbl_stok.id = tbl_pemesanan.id_barang WHERE nomor_po = '{$id}'")->result();
-	$this->data['title'] = 'Nota Pemesanan - '.$id;
-	$this->load->view('gudang/nota/pemesanan',$this->data);
+    $spreadsheet = new Spreadsheet();
+		$spreadsheet->getProperties()->setCreator('Maarten Balliauw')
+	    ->setLastModifiedBy('Maarten Balliauw')
+	    ->setTitle('Office 2007 XLSX Test Document')
+	    ->setSubject('Office 2007 XLSX Test Document')
+	    ->setDescription('Test document for Office 2007 XLSX, generated using PHP classes.')
+	    ->setKeywords('office 2007 openxml php')
+	    ->setCategory('Test result file');
+
+		// Add some data
+		$spreadsheet->setActiveSheetIndex(0)
+        ->setCellValue('A1', 'Nota Pemesanan Barang ')
+        ->setCellValue('A2','Nomor')
+        ->setCellValue('B2',$id);
+		// Miscellaneous glyphs, UTF-8
+		$spreadsheet->setActiveSheetIndex(0)
+		    ->setCellValue('A3', 'No')
+		    ->setCellValue('B3', 'Nomor Part')
+		    ->setCellValue('C3', 'Nama Part')
+		    ->setCellValue('D3', 'QTY')
+		    ->setCellValue('E3', 'Het')
+		    ->setCellValue('F3', 'Disc1')
+		    ->setCellValue('G3', 'Disc2')
+		    ->setCellValue('H3', 'Netto');
+
+		$arrayData = $this->db->query("
+        SELECT
+          tbl_stok.nomor_part,
+          tbl_stok.nama_part,
+          tbl_pemesanan.qty,
+          tbl_stok.harga_jual,
+          tbl_stok.disc1,
+          tbl_stok.disc2,
+          tbl_stok.harga_beli
+        FROM tbl_pemesanan INNER JOIN
+          tbl_stok ON tbl_stok.id =
+        tbl_pemesanan.id_barang WHERE nomor_po = '{$id}'")->result_array();
+    // Rename worksheet
+    
+		$spreadsheet->getActiveSheet()->setTitle('Pemesanan');
+		$spreadsheet->getActiveSheet()->mergeCells('A1:K1');
+		$spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE); // Set bold kolom A1
+    $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(15); // Set font size 15 untuk kolom A1
+
+
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$spreadsheet->setActiveSheetIndex(0);
+		$spreadsheet->getActiveSheet()
+		    ->fromArray(
+		        $arrayData,
+		        NULL,        // Array values with this value will not be set
+        		'B4'         // Top left coordinate of the worksheet range where
+                //'A4'    //    we want to set these values (default is A1)
+		    );
+
+		// Redirect output to a client’s web browser (Xlsx)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="Nota Pemesanan - '.$id.'.xlsx"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.0
+
+		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
   }
 
   public function generate_nourut() {
